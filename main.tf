@@ -34,18 +34,17 @@ resource "aws_security_group" "devops_sg" {
   }
 }
 
-
 # -----------------------------
 # EC2 Instance
 # -----------------------------
 resource "aws_instance" "dev_server" {
 
-  ami           = var.ami_id
-  instance_type = var.instance_type
-
+  ami                         = var.ami_id
+  instance_type               = var.instance_type
   associate_public_ip_address = true
 
-  user_data = file("userdata.sh")
+  user_data                   = file("userdata.sh")
+  user_data_replace_on_change = true
 
   vpc_security_group_ids = [aws_security_group.devops_sg.id]
 
@@ -53,3 +52,6 @@ resource "aws_instance" "dev_server" {
     Name = "ALLSERVERS"
   }
 }
+
+
+
